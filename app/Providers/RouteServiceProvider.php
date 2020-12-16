@@ -16,6 +16,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'App\Http\Controllers';
 
+    protected $admin_auth_namespace = 'App\Http\Controllers\admin_auth';
+
     /**
      * The path to the "home" route for your application.
      *
@@ -46,6 +48,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->map_adminAuthRoutes();
+
         //
     }
 
@@ -61,6 +65,14 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
+    }
+
+    protected function map_adminAuthRoutes() {
+        Route::middleware(['web'])
+        ->namespace($this->admin_auth_namespace)
+        ->as('admin.')
+        ->prefix('admin')
+        ->group(base_path('routes/admin/auth.php'));
     }
 
     /**
